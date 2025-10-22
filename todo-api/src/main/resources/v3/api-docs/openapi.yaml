@@ -1,0 +1,58 @@
+openapi: 3.0.3
+info:
+  title: System To Do List API
+  version: "0.1"
+  description: Api to register users and add list catalogs
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /login:
+    post:
+      summary: Login with user
+      description: Performs login and returns the authenticated user's data
+
+  /signup:
+    post:
+      summary: Register users
+      description: Registers a new user and returns the URI of the created resource
+
+  /user:
+    put:
+      summary: Update users
+      description: Update data user, name and password
+    delete:
+      summary: Delete user
+      description:  Delete user by ID in header
+
+  /collection/{idCollection}:
+    put:
+      summary: Update collection
+      description: Update collection with user-id in header and collection-id in path.
+    delete:
+      summary: Delete collection
+      description: Delete collection with user-id in header and collection-id in path.
+
+  /collection:
+    get:
+      summary: get collections by user
+      description: Using the user-id in header, it will return all collection of user
+    post:
+      summary: create collection
+      description: For create collection, it's need to the user-id in header
+
+  /collection/{idCollection}/item/{idItem}:
+    put:
+      summary: update item
+      description: For update item, it's need to the user-id in header, idCollection and idItem in path
+    delete:
+      summary: delete item
+      description: For delete item, it's need to the user-id in header, idCollection and idItem in path
+
+  /collection/{idCollection}/item:
+    get:
+      summary: get itens in collection
+      description: For get itens in collection, it's need to the user-id in header, idCollection in path
+    post:
+      summary: create item int collection
+      description: For create itens in collection, it's need to the user-id in header, idCollection in path

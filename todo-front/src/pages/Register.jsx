@@ -1,0 +1,102 @@
+
+/**
+ * @component Register
+ * @description Renderiza a página de criação de conta, lida com a submissão
+ * e exibe popups de feedback para o usuário.
+ */
+import { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
+import Input from '../components/ui/Input';
+import Button from '../components/ui/Button';
+import Popup from '../components/ui/Popup';
+
+// Componente local para o SVG do logo.
+const LogoIcon = () => (
+    <svg width="48" height="50" viewBox="0 0 48 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path fillRule="evenodd" clipRule="evenodd" d="M14.1072 0C15.1475 0 15.9908 0.858151 15.9908 1.91673V2.53892C16.1136 2.50713 16.2368 2.47644 16.3605 2.44691C21.4859 1.2235 26.8198 1.2235 31.9451 2.44691C32.069 2.47644 32.192 2.5071 32.3148 2.53892V1.91673C32.3148 0.858151 33.1581 0 34.1984 0C35.2387 0 36.082 0.858151 36.082 1.91673V3.9364C41.452 6.57619 45.4656 11.5672 46.8623 17.6268C48.0645 22.8425 48.0645 28.2703 46.8623 33.4859C45.1262 41.0179 39.3467 46.899 31.9451 48.6658C26.8198 49.8892 21.4859 49.8892 16.3605 48.6658C8.95888 46.899 3.1796 41.0181 1.44344 33.4859C0.241185 28.2703 0.241185 22.8425 1.44344 17.6268C2.84021 11.5672 6.85377 6.57619 12.2237 3.9364V1.91673C12.2237 0.858151 13.067 0 14.1072 0ZM21.4512 18.9737C22.0398 18.3749 22.0398 17.404 21.4512 16.8052C20.8629 16.2064 19.9087 16.2064 19.3204 16.8052L15.363 20.8322L13.9171 19.3609C13.3286 18.762 12.3745 18.762 11.7861 19.3609C11.1976 19.9595 11.1976 20.9305 11.7861 21.5294L14.2975 24.0851C14.8859 24.6837 15.84 24.6837 16.4285 24.0851L21.4512 18.9737ZM26.6642 20.1895C25.832 20.1895 25.1573 20.876 25.1573 21.723C25.1573 22.5698 25.832 23.2563 26.6642 23.2563H35.4542C36.2865 23.2563 36.9609 22.5698 36.9609 21.723C36.9609 20.876 36.2865 20.1895 35.4542 20.1895H26.6642ZM21.4512 31.7518C22.0398 31.153 22.0398 30.1822 21.4512 29.5834C20.8629 28.9845 19.9087 28.9845 19.3204 29.5834L15.363 33.6104L13.9171 32.1391C13.3286 31.5403 12.3745 31.5403 11.7861 32.1391C11.1976 32.7377 11.1976 33.7087 11.7861 34.3076L14.2975 36.8631C14.8859 37.4619 15.84 37.4619 16.4285 36.8631L21.4512 31.7518ZM26.6642 32.9677C25.832 32.9677 25.1573 33.6542 25.1573 34.5012C25.1573 35.348 25.832 36.0345 26.6642 36.0345H35.4542C36.2865 36.0345 36.9609 35.348 36.9609 34.5012C36.9609 33.6542 36.2865 32.9677 35.4542 32.9677H26.6642Z" fill="#D46565"/>
+  </svg>
+);
+
+export default function Register() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [popup, setPopup] = useState({ message: '', type: '' });
+  const navigate = useNavigate();
+  const { signup } = useAuth();
+
+  useEffect(() => {
+    document.body.classList.add('login-bg');
+    return () => {
+      document.body.classList.remove('login-bg');
+    };
+  }, []);
+
+  const handleClosePopup = () => setPopup({ message: '', type: '' });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    handleClosePopup();
+    if (!username || !password) {
+        setPopup({ message: 'Por favor, preencha todos os campos.', type: 'error' });
+        return;
+    }
+
+    const result = await signup(username, password);
+
+    if (result.success) {
+      setPopup({ message: 'Conta criada com sucesso!', type: 'success' });
+      setTimeout(() => {
+        navigate('/login', { state: { message: 'Sua conta foi criada! Faça o login.' } });
+      }, 1000);
+    } else {
+      setPopup({ message: result.message, type: 'error' });
+    }
+  };
+
+  return (
+    <>
+      <Popup
+        message={popup.message}
+        type={popup.type}
+        onClose={handleClosePopup}
+        duration={1000}
+      />
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="bg-soft p-8 rounded-xl shadow-lg w-full max-w-sm border border-accent">
+          <div className="flex justify-center mb-6">
+             <LogoIcon />
+          </div>
+          <h1 className="text-2xl font-bold text-center mb-6 text-primary">Criação de conta</h1>
+          <form onSubmit={handleSubmit}>
+            <div className="mb-4">
+              <Input
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+              />
+            </div>
+            <div className="mb-6">
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+              />
+            </div>
+            <Button type="submit" className="w-full">Criar</Button>
+          </form>
+          <div className="mt-6 text-center">
+            <p className="text-secondary text-sm">
+              <Link to="/login" className="hover:text-accent transition-colors">
+                Já tenho uma conta!
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

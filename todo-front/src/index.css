@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #1A1A22;
+  color: #FFFFFF;
+  font-family: 'Inter', sans-serif;
+}
+
+input, textarea, select {
+  background-color: #2D2D34;
+  border-color: #333333;
+  color: #FFFFFF;
+}
+
+button {
+  transition: background-color 0.2s ease;
+}
+
+.card {
+  background-color: #2D2D34;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.sidebar {
+  background-color: #1E1E26;
+  width: 280px;
+  height: 100vh;
+  padding: 16px;
+  border-right: 1px solid #333333;
+}
+
+.header {
+  background-color: #1E1E26;
+  padding: 16px;
+  border-bottom: 1px solid #333333;
+}
+
+.stats {
+  background-color: #2D2D34;
+  padding: 16px;
+  border: 1px solid #333333;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  background-color: #FF6B6B;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-weight: bold;
+}
+
+.text-accent {
+  color: #FF6B6B;
+}
+
+.btn-accent {
+  background-color: #FF6B6B;
+  color: #FFFFFF;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-accent:hover {
+  background-color: #FF5252;
+}
+
+.link-accent {
+  color: #FF6B6B;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link-accent:hover {
+  color: #FF5252;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+.menu-dots {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.menu-dots:hover {
+  background-color: #333333;
+  border-radius: 4px;
+}
+
+.border-accent {
+  border: 1px solid #FF6B6B;
+}
+
+.bg-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23333333' stroke-width='1'%3E%3Cpath d='M0 0h60v60H0V0z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 60px 60px;
+  background-color: #1A1A22;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1F2128;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #353841; 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8A8C93;
+}
+
+@layer utilities {
+  @keyframes fade-in-down {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .animate-fade-in-down {
+    animation: fade-in-down 0.3s ease-out forwards;
+  }
+}

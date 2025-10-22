@@ -1,0 +1,39 @@
+services:
+  spring_api:
+    container_name: spring_app_todo_list
+    restart: unless-stopped
+    build: .
+    mem_limit: 1g
+    cpus: 1.0
+    ports:
+      - "8080:8080"
+    environment:
+      - JAVA_OPTS=-Xms256m -Xmx512m
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_postgres:5432/todo_list_db
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=admin-123
+    depends_on:
+      - db_postgres
+    networks:
+      - pg_net
+
+  db_postgres:
+    image: postgres:15.14-alpine3.21
+    container_name: postgres_db_master
+    restart: unless-stopped
+    shm_size: 64mb
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin-123
+      POSTGRES_DB: todo_list_db
+    volumes:
+      - data_todo_list:/var/lib/postgresql/data
+    networks:
+      - pg_net
+
+volumes:
+  data_todo_list:
+
+networks:
+  pg_net:
+    driver: bridge
