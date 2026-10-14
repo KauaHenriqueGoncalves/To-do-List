@@ -1,4 +1,4 @@
-# 📝 To-Do List
+# To-Do List
 
 Aplicação full-stack para gerenciamento de listas de tarefas com autenticação de usuários, coleções personalizadas e interface moderna.
 
